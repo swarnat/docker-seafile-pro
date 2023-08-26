@@ -1,0 +1,28 @@
+version: '3.6'
+services:
+  seafile:
+    image: docker-seafile-pro:v9-0-6-01-pro
+    container_name: seafile_xyz
+    restart: unless-stopped
+    ports:
+      - 9001:8000
+      - 9002:8080
+      - 9003:8082
+    volumes:
+      - seafile_data:/seafile:rw
+    environment:
+#      - MODE=maintenance
+      - SEAFILE_NAME=Seafile-Pro-Environment
+      - SEAFILE_ADDRESS=seafile.example.com
+      - SEAFILE_ADMIN=seafile@example.com
+      - SEAFILE_ADMIN_PW=SecurePassword
+      - MYSQL_SERVER=MYSQLHOST
+      - MYSQL_USER=MYSQLUSER
+      - MYSQL_USER_PASSWORD=MYSQLPASSWORD
+      - CCNET_DB=seafile_ccnet_db
+      - SEAFILE_DB=seafile_seafile_db
+      - SEAHUB_DB=seafile_seahub_db
+volumes:
+  seafile_data:
+    driver: local
+
