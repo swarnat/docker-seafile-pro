@@ -2,8 +2,8 @@
 
 Special for external database Servers
 
-Base: https://github.com/Gronis/docker-seafile
-Adjusted with help of: https://github.com/eplightning/seafile-kubernetes
+Base: https://github.com/Gronis/docker-seafile  
+Adjusted with help of: https://github.com/eplightning/seafile-kubernetes  
 
 ## License
 
