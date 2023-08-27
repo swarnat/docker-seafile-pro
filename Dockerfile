@@ -1,7 +1,7 @@
-FROM swarnat/ubuntu_dumb-init_gosu:20.04
+FROM swarnat/ubuntu_dumb-init_gosu:22.04
 MAINTAINER Stefan Warnat <ich@stefanwarnat.de>
 
-ARG SEAFILE_VERSION=9.0.16
+ARG SEAFILE_VERSION=10.0.9
 
 ARG TZ=Etc/UTC 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -12,15 +12,15 @@ RUN apt-get update \
       python3-memcache curl ffmpeg python3-pip libmysqlclient-dev \
   && ln -s /usr/bin/python3 /usr/bin/python \
   && pip3 install --upgrade pip \
-  && pip3 install lxml moviepy iniparse pillow captcha django-pylibmc django-simple-captcha setuptools_rust future mysqlclient==2.0.1 sqlalchemy==1.4.3 \
+  && pip3 install lxml moviepy iniparse pysaml2==7.2.* djangosaml2==1.5.* pillow==9.3.* captcha==0.4 django-pylibmc django_simple_captcha==0.5.* setuptools_rust future==0.18.* mysqlclient==2.1.* sqlalchemy==1.4.3 \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache/pip
 
 
-RUN pip3 install --timeout=3600 Pillow pylibmc captcha jinja2 \
-    sqlalchemy django-pylibmc django-simple-captcha && \
+RUN pip3 install --timeout=3600 Pillow pylibmc jinja2 \
+    sqlalchemy django-pylibmc && \
     rm -r /root/.cache/pip
 
-RUN pip3 install --timeout=3600 boto oss2 pycryptodome twilio python-ldap configparser && \
+RUN pip3 install --timeout=3600 boto oss2 pycryptodome==3.16.* twilio python-ldap configparser cffi==1.15.1 && \
     rm -r /root/.cache/pip
 
 RUN useradd -d /seafile -M -s /bin/bash -c "Seafile User" seafile && \
