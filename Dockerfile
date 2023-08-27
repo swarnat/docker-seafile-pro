@@ -3,8 +3,11 @@ MAINTAINER Stefan Warnat <ich@stefanwarnat.de>
 
 ARG SEAFILE_VERSION=9.0.16
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get update \
-  && apt-get install -y python3.10 libpython3.10 python3-mysqldb openjdk-8-jre poppler-utils wget git \
+ARG TZ=Etc/UTC 
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+  && apt-get install -y tzdata python3.10 libpython3.10 python3-mysqldb openjdk-8-jre poppler-utils wget git \
       python3-setuptools python3-pil python3-ldap sqlite3 locales \
       python3-memcache curl ffmpeg python3-pip libmysqlclient-dev \
   && ln -s /usr/bin/python3 /usr/bin/python \
