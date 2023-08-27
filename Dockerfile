@@ -1,4 +1,4 @@
-FROM swarnat/ubuntu_dumb-init_gosu:latest
+FROM swarnat/ubuntu_dumb-init_gosu:20.04
 MAINTAINER Stefan Warnat <ich@stefanwarnat.de>
 
 ARG SEAFILE_VERSION=9.0.16
@@ -9,7 +9,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update \
       python3-memcache curl ffmpeg python3-pip libmysqlclient-dev \
   && ln -s /usr/bin/python3 /usr/bin/python \
   && pip3 install --upgrade pip \
-  && pip3 install moviepy iniparse pillow captcha django-pylibmc django-simple-captcha setuptools_rust future mysqlclient==2.0.1 sqlalchemy==1.4.3 \
+  && pip3 install lxml moviepy iniparse pillow captcha django-pylibmc django-simple-captcha setuptools_rust future mysqlclient==2.0.1 sqlalchemy==1.4.3 \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache/pip
 
 
