@@ -1,7 +1,7 @@
 FROM swarnat/ubuntu_dumb-init_gosu:22.04
 MAINTAINER Stefan Warnat <ich@stefanwarnat.de>
 
-ARG SEAFILE_VERSION=10.0.11
+ARG SEAFILE_VERSION=11.0.7
 
 ARG TZ=Etc/UTC 
 ARG DEBIAN_FRONTEND=noninteractive
