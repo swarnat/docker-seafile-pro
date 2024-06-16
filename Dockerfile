@@ -12,7 +12,7 @@ RUN apt-get update \
       python3-memcache curl ffmpeg python3-pip libmysqlclient-dev \
   && ln -s /usr/bin/python3 /usr/bin/python \
   && pip3 install --upgrade pip \
-  && pip3 install lxml moviepy iniparse pysaml2==7.2.* djangosaml2==1.5.* pillow==9.5.* captcha==0.5 django-pylibmc django_simple_captcha==0.5.* setuptools_rust future==0.18.* mysqlclient==2.1.* "sqlalchemy<2" \
+  && pip3 install lxml moviepy iniparse pysaml2==7.2.* djangosaml2==1.5.* pillow==9.5.* captcha==0.5 django-pylibmc django_simple_captcha==0.5.* setuptools_rust future==0.18.* mysqlclient==2.1.* "sqlalchemy==2.0.18" \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache/pip
 
 
