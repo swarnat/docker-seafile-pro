@@ -5,6 +5,11 @@ Special for external database Servers
 Base: https://github.com/Gronis/docker-seafile  
 Adjusted with help of: https://github.com/eplightning/seafile-kubernetes  
 
+## Troubles
+
+When you have troubles with updates / setup, then set the environment variable "MODE" to value "maintenance".  
+This allows to enter the container and run startup commands yourself, without to have problems because of restarting container.
+
 ## License
 
 This docker image is **not** related to Seafile Ltd. in any way.  
