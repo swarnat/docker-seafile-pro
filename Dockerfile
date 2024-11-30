@@ -1,27 +1,40 @@
 FROM swarnat/ubuntu_dumb-init_gosu:22.04
 MAINTAINER Stefan Warnat <ich@stefanwarnat.de>
 
-ARG SEAFILE_VERSION=11.0.14
+ARG SEAFILE_VERSION=11.0.16
 
-ARG TZ=Etc/UTC 
+ARG TZ=Etc/UTC
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update \
-  && apt-get install -y tzdata python3.10 libpython3.10 python3-mysqldb openjdk-8-jre poppler-utils wget git \
-      python3-setuptools python3-pil python3-ldap sqlite3 locales \
-      python3-memcache curl ffmpeg python3-pip libmysqlclient-dev \
-  && ln -s /usr/bin/python3 /usr/bin/python \
-  && pip3 install --upgrade pip \
-  && pip3 install lxml moviepy iniparse pysaml2==7.2.* djangosaml2==1.5.* pillow==9.5.* captcha==0.5 django-pylibmc django_simple_captcha==0.5.* setuptools_rust future==0.18.* mysqlclient==2.1.* sqlalchemy==2.0.18 \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /root/.cache/pip
+# Security
+RUN mkdir -p /etc/container_environment && \
+    echo -n no > /etc/container_environment/INITRD && \
+    apt-get update --fix-missing && apt-get upgrade -y && \
+    export DEBIAN_FRONTEND=noninteractive && apt install -y language-pack-en vim htop net-tools psmisc wget curl git unzip && \
+    locale-gen en_US && update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 && \
+    echo -n en_US.UTF-8 > /etc/container_environment/LANG && \
+    echo -n en_US.UTF-8 > /etc/container_environment/LC_CTYPE && \
+    apt-get install -y tzdata \
+    nginx \
+    libmysqlclient-dev \
+    libmemcached11 libmemcached-dev \
+    libxmlsec1 xmlsec1 \
+    zlib1g-dev pwgen openssl poppler-utils \
+    fuse \
+    ldap-utils libldap2-dev ca-certificates dnsutils \
+    clamdscan iputils-ping \
+    ttf-wqy-microhei ttf-wqy-zenhei xfonts-wqy && \
+    apt-get install -y python3 python3-pip python3-setuptools python3-ldap python3-rados && \
+    rm -f /usr/bin/python && ln -s /usr/bin/python3 /usr/bin/python && \
+    python3 -m pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple/ && rm -r /root/.cache/pip && \
+    apt clean && rm -rf /var/lib/apt/lists/*
 
+RUN pip3 install --timeout=3600 click termcolor colorlog pymysql django==4.2.* \
+    future==0.18.* mysqlclient==2.1.* pillow==10.2.* pylibmc captcha==0.5.* markupsafe==2.0.1 jinja2 \
+    sqlalchemy==2.0.18 django-pylibmc django_simple_captcha==0.6.* pyjwt==2.6.* djangosaml2==1.5.* pysaml2==7.2.* pycryptodome==3.16.* cffi==1.15.1 \
+    boto3 oss2 twilio python-ldap==3.4.3 configparser psd-tools lxml \
+    -i https://pypi.tuna.tsinghua.edu.cn/simple/ && rm -r /root/.cache/pip
 
-RUN pip3 install --timeout=3600 Pillow pylibmc jinja2 \
-    sqlalchemy django-pylibmc && \
-    rm -r /root/.cache/pip
-
-RUN pip3 install --timeout=3600 boto oss2 pycryptodome==3.16.* twilio python-ldap configparser cffi==1.15.1 && \
-    rm -r /root/.cache/pip
 
 RUN useradd -d /seafile -M -s /bin/bash -c "Seafile User" seafile && \
   mkdir -p /opt/haiwen /seafile/ && \
