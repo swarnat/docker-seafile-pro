@@ -1,7 +1,7 @@
 version: '3.6'
 services:
   seafile:
-    image: docker-seafile-pro:v9-0-6-01-pro
+    image: swarnat/seafile-pro:latest
     container_name: seafile_xyz
     restart: unless-stopped
     ports:
@@ -22,7 +22,9 @@ services:
       - CCNET_DB=seafile_ccnet_db
       - SEAFILE_DB=seafile_seafile_db
       - SEAHUB_DB=seafile_seahub_db
+
+      - LANG=en_US.UTF-8
+      - LC_CTYPE=en_US.UTF-8
 volumes:
   seafile_data:
     driver: local
-
